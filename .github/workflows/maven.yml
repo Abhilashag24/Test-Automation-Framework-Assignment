@@ -39,7 +39,7 @@ jobs:
       uses: actions/upload-artifact@v7.0.2
       with:  
           name : Screenshots
-          path : screenhots/
+          path : screenshots/
 
     - name: Upload Test Reports
       if: always()
