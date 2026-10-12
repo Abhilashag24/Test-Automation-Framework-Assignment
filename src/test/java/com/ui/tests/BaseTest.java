@@ -18,21 +18,20 @@ public class BaseTest {
 
 	protected HomePage homePage;
 	private Logger logger = LoggerUtility.getLogger(this.getClass());
-	private boolean isLambdaTest; 
-	
-	@Parameters({"browser", "isLambdaTest","isHeadless"})
+	private boolean isLambdaTest;
+
+	@Parameters({ "browser", "isLambdaTest", "isHeadless" })
 	@BeforeMethod(description = "Load the HomePage of the website")
-	public void setUp(@Optional("CHROME") String browser,
-			@Optional ("false") boolean isLambdaTest,
-			@Optional ("false") boolean isHeadless,ITestResult result) {
-		
-		this.isLambdaTest=isLambdaTest;
+	public void setUp(@Optional("CHROME") String browser, @Optional("false") boolean isLambdaTest,
+			@Optional("false") boolean isHeadless, ITestResult result) {
+
+		this.isLambdaTest = isLambdaTest;
 		WebDriver LambdaDriver;
 		if (isLambdaTest) {
 
-			LambdaDriver =	LambdaTestUtility.initializeLabmdaTestSession(result.getMethod().getMethodName(), browser);
-		homePage = new HomePage(LambdaDriver);
-		
+			LambdaDriver = LambdaTestUtility.initializeLabmdaTestSession(result.getMethod().getMethodName(), browser);
+			homePage = new HomePage(LambdaDriver);
+
 		} else {
 			logger.info("Loading the HomePage of the website");
 			homePage = new HomePage(Browser.valueOf(browser.toUpperCase()), isHeadless);
@@ -42,11 +41,14 @@ public class BaseTest {
 	public BrowserUtility getInstance() {
 		return homePage;
 	}
-	
-	/*
-	 * @AfterMethod(description = "Teasr dowm the browser") public void tearDown() {
-	 * if(isLambdaTest) { LambdaTestUtility.quitSession(); }else { homePage.quit();
-	 * } }
-	 */
+
+	@AfterMethod(description = "Teasr dowm the browser")
+	public void tearDown() {
+		if (isLambdaTest) {
+			LambdaTestUtility.quitSession();
+		} else {
+			homePage.quit();
+		}
+	}
 
 }
