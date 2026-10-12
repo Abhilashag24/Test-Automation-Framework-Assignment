@@ -24,7 +24,7 @@ public class BaseTest {
 	@BeforeMethod(description = "Load the HomePage of the website")
 	public void setUp(@Optional("CHROME") String browser,
 			@Optional ("false") boolean isLambdaTest,
-			@Optional ("true") boolean isHeadless,ITestResult result) {
+			@Optional ("false") boolean isHeadless,ITestResult result) {
 		
 		this.isLambdaTest=isLambdaTest;
 		WebDriver LambdaDriver;
@@ -43,13 +43,10 @@ public class BaseTest {
 		return homePage;
 	}
 	
-	@AfterMethod(description = "Teasr dowm the browser")
-	public void tearDown() {
-		if(isLambdaTest) {
-			LambdaTestUtility.quitSession();
-		}else {
-			homePage.quit();
-		}
-	}
+	/*
+	 * @AfterMethod(description = "Teasr dowm the browser") public void tearDown() {
+	 * if(isLambdaTest) { LambdaTestUtility.quitSession(); }else { homePage.quit();
+	 * } }
+	 */
 
 }

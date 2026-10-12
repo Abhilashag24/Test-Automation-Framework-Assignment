@@ -18,24 +18,25 @@ public final class HomePage extends BrowserUtility {
 	public HomePage(Browser browser, boolean isHeadless) {
 		super(browser, isHeadless);
 		goToWebsite(getProperty("URL"));
-		 
 
 	}
+
 	public HomePage(WebDriver driver) {
 		super(driver);
 		goToWebsite(getProperty("URL"));
-		 
 
 	}
+
 	public LoginPage goToLoginPage() {
 		logger.info("Trying to perform click to go to Sign In Page");
 		clickOn(SIGN_IN_BUTTON_LOCATOR);
 
 		return new LoginPage(getDriver());
 	}
+
 	public void quit() {
 		getDriver().quit();
-		
+
 	}
 
 }

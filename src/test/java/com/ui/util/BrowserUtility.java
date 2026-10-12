@@ -4,20 +4,25 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -106,15 +111,63 @@ public abstract class BrowserUtility {
 		wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
 	}
 
+	public void clickOn(WebElement element) {
+		logger.info("Clicking the element with locator " + element);
+		wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+	}
 	public void enterText(By locator, String textToEnter) {
 		logger.info("Entering the text " + textToEnter + " in the locator " + locator);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).sendKeys(textToEnter);
+	}
+
+	public void enterSpecialKey(By locator, Keys keyToEnter) {
+		logger.info("Entering the key " + keyToEnter + " for the locator " + locator);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).sendKeys(keyToEnter);
 	}
 
 	public String getVisibleText(By locator) {
 		String text = wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
 		logger.info("Returning the visible Text " + text);
 		return text;
+	}
+
+	public List<String> getAllVisibleText(By locator) {
+		List<WebElement> elementList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+		logger.info("All the products found after search");
+		List<String> visibleTextList = new ArrayList();
+		for (WebElement ele : elementList) {
+			System.out.println(getVisibleText(ele));
+			visibleTextList.add(getVisibleText(ele));
+		}
+		return visibleTextList;
+	}
+
+	public List<WebElement> getAllElements(By locator) {
+		List<WebElement> elementList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+		logger.info("All the products found after search");
+
+		return elementList;
+	}
+
+	public String getVisibleText(WebElement element) {
+		String text = element.getText();
+		logger.info("Returning the visible Text " + text);
+		return text;
+	}
+
+	public void clearText(By locator) {
+		logger.info("Clearing the text from locator " + locator);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).clear();
+
+	}
+
+	public void selectFromDropdown(By locator, String option) {
+		logger.info("Finding Element with the locator " + locator);
+		WebElement state = driver.get().findElement(locator);
+		new Actions(driver.get()).moveToElement(state).click().sendKeys(option).sendKeys(Keys.ENTER).perform();
+
+		logger.info("Selecting the option " + option);
+
 	}
 
 	public String takeScreenshot(String name) {
