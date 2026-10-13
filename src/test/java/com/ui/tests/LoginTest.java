@@ -22,7 +22,7 @@ public class LoginTest extends BaseTest{
 
 	@Test(description = "Verifies if the valid user is able to login the application", groups = { "Regression", "E2E",
 			"Sanity" }, dataProviderClass = com.ui.dataprovider.LoginDataProvider.class, dataProvider = "LoginTestExcelDataProvider", retryAnalyzer = com.ui.listeners.RetryAnalyzer.class)
-	public void logiclearnExcelTest(User user) {
+	public void loginExcelTest(User user) {
 
 		assertEquals(homePage.goToLoginPage().toLoginWith(user.getEmailAddress(), user.getPassword()).getUserName(),
 				"Rek Aya");
